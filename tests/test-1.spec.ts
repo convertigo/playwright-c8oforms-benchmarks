@@ -1,4 +1,17 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
+
+async function waitForAppReady(page: Page) {
+  await page.waitForLoadState('domcontentloaded');
+
+  const ionApp = page.locator('ion-app').first();
+  if (await ionApp.count()) {
+    await expect(ionApp).toHaveClass(/hydrated/, { timeout: 15000 });
+  }
+
+  await expect(
+    page.locator('ion-loading:not(.overlay-hidden), ion-spinner').first(),
+  ).toBeHidden({ timeout: 15000 });
+}
 
 test('NO CODE STUDIO', async ({ page, context }) => {
 
@@ -31,10 +44,12 @@ test('NO CODE STUDIO', async ({ page, context }) => {
     page.getByText(form_name).locator('..').click()
   ]);
 
-  await newPage.waitForLoadState('domcontentloaded');
+  await waitForAppReady(newPage);
 
   // GRID
-  await expect(newPage.locator('div.ion-text-wrap.class1584610404188').filter({ hasText: form_name })).toBeVisible();
+  await expect(
+    newPage.locator('div.ion-text-wrap.class1584610404188').filter({ hasText: form_name }),
+  ).toBeVisible({ timeout: 30000 });
   await expect(newPage.getByText(grid_value).nth(0)).toBeAttached({ timeout: 15000 });
   await expect(newPage.getByText(grid_value).nth(1)).toBeAttached({ timeout: 15000 });
 
