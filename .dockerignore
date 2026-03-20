@@ -1,0 +1,8 @@
+.env
+.git
+.DS_Store
+node_modules
+playwright-report
+test-results
+npm-debug.log
+openshift/*.generated.yaml

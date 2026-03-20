@@ -1,5 +1,5 @@
 {
-  "name": "tests-acoss",
+  "name": "playwright-c8oforms-benchmarks",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {},
