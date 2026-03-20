@@ -65,6 +65,7 @@ export default defineConfig({
     baseURL,
     navigationTimeout: navigationTimeoutMs,
     trace,
+    ignoreHTTPSErrors: true,
   },
 
   projects,
