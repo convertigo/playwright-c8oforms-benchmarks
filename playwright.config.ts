@@ -14,6 +14,12 @@ const fullyParallel = true;
 const retries = isCI ? toNumber(process.env.RETRIES, 0) : 0;
 const workers = isCI ? toNumber(process.env.WORKERS, 1) : 1;
 const repeatEach = isCI ? toNumber(process.env.REPEAT_EACH, 1) : 1;
+const playwrightTimeoutMs = toNumber(process.env.PLAYWRIGHT_TIMEOUT_MS, 15000);
+const testTimeoutMs = toNumber(
+  process.env.PLAYWRIGHT_TEST_TIMEOUT_MS,
+  playwrightTimeoutMs * 3,
+);
+const navigationTimeoutMs = playwrightTimeoutMs;
 const reporter = 'html';
 const baseURL = process.env.BASE_URL;
 const trace = 'on-first-retry';
@@ -33,6 +39,9 @@ console.info({
   retries,
   workers,
   repeatEach,
+  playwrightTimeoutMs,
+  testTimeoutMs,
+  navigationTimeoutMs,
   reporter,
   baseURL,
   trace,
@@ -40,6 +49,7 @@ console.info({
 });
 
 export default defineConfig({
+  timeout: testTimeoutMs,
   testDir,
   fullyParallel,
   forbidOnly: isCI,
@@ -47,9 +57,13 @@ export default defineConfig({
   workers,
   repeatEach,
   reporter,
+  expect: {
+    timeout: playwrightTimeoutMs,
+  },
 
   use: {
     baseURL,
+    navigationTimeout: navigationTimeoutMs,
     trace,
   },
 
