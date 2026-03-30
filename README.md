@@ -101,6 +101,78 @@ Before applying the Job:
 - `PLAYWRIGHT_TIMEOUT_MS`: timeout used for `expect` and navigation.
 - `PLAYWRIGHT_TEST_TIMEOUT_MS`: global timeout for a test.
 
+## k6 Static Bottleneck Bench
+
+The repository also includes a dedicated static-asset k6 bench:
+
+- [k6/convertigo-static-path-bench.js](./k6/convertigo-static-path-bench.js)
+
+Its goal is to isolate frontend asset serving from the business flow and compare different access paths:
+
+- public hostname through Envoy Gateway
+- internal service path
+- direct pod IP path
+
+Typical public-path run:
+
+```bash
+BASE_ORIGIN=https://toulouse-m-dev.convertigo.com \
+/opt/homebrew/bin/k6 run \
+  --stage 1m:20 \
+  --stage 1m:20 \
+  --stage 5s:0 \
+  k6/convertigo-static-path-bench.js
+```
+
+Typical direct-pod comparison:
+
+```bash
+BASE_ORIGIN=http://10.21.8.95:28080 \
+/opt/homebrew/bin/k6 run \
+  --stage 30s:20 \
+  --stage 30s:20 \
+  --stage 5s:0 \
+  k6/convertigo-static-path-bench.js
+```
+
+Useful environment variables:
+
+- `BASE_ORIGIN`: target origin to benchmark
+- `ASSET_GROUPS`: comma-separated asset groups, default `critical-mobile,critical-pwa`
+- `ASSET_TIMEOUT`: per-request timeout, default `30s`
+- `ASSET_BATCH_SIZE`: concurrent asset batch size inside one VU, default `6`
+- `START_VUS`, `TARGET_VUS`, `RAMP_UP`, `HOLD`, `RAMP_DOWN`
+- `DEBUG_FAILURES=true|false`
+- `DEBUG_PROGRESS=true|false`
+
+This bench is useful to determine whether bottlenecks are primarily on:
+
+- the public Gateway/LB path
+- the Convertigo service itself
+- or the shared storage path behind Convertigo
+
+## Cluster Snapshot Helper
+
+To correlate k6 results with live cluster state, use:
+
+- [scripts/collect-cluster-bottlenecks.sh](./scripts/collect-cluster-bottlenecks.sh)
+
+Example:
+
+```bash
+chmod +x scripts/collect-cluster-bottlenecks.sh
+KUBECONFIG_PATH=/Users/opic/outscale/outscale.yaml \
+scripts/collect-cluster-bottlenecks.sh
+```
+
+It captures:
+
+- `kubectl top nodes`
+- `kubectl top pods -A`
+- Convertigo pod placement and deployment details
+- Envoy Gateway pod placement, top output, deployment config, and recent logs
+- Longhorn pod placement, top output, and the current workspace volume spec
+
 ## Run Tests
 
 List detected tests:
