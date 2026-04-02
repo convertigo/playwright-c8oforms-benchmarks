@@ -34,6 +34,8 @@ const DEBUG_FAILURES = (__ENV.DEBUG_FAILURES || '').toLowerCase() !== 'false';
 const ASSET_TIMEOUT = __ENV.ASSET_TIMEOUT || '30s';
 const BATCH_SIZE = Number(__ENV.ASSET_BATCH_SIZE || 6);
 const SLEEP_SECONDS = Number(__ENV.SLEEP_SECONDS || 0);
+const PUBLISHED_APP_ID = __ENV.PUBLISHED_APP_ID || 'published_1774946272392';
+const PWA_BASE_PATH = `/convertigo/projects/C8Oforms/DisplayObjects/pwas/${PUBLISHED_APP_ID}`;
 
 const ASSET_GROUPS = {
   'critical-mobile': [
@@ -48,15 +50,15 @@ const ASSET_GROUPS = {
     '/convertigo/projects/C8Oforms/DisplayObjects/mobile/3506.52dad6c88dc52711.js',
   ],
   'critical-pwa': [
-    '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/runtime.6d01a261afb992fd.js',
-    '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/polyfills.eea1a8b56a05e4aa.js',
-    '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/scripts.cb42d5d187f18a8a.js',
-    '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/main.bb1e95bd8586e328.js',
-    '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/styles.28db3436e8debf5e.css',
-    '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/common.8395e4c0736267db.js',
-    '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/7720.20c6da9c50e94bad.js',
-    '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/2075.7d953ffaa9e7fffa.js',
-    '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/3506.52dad6c88dc52711.js',
+    `${PWA_BASE_PATH}/scripts/runtime.6d01a261afb992fd.js`,
+    `${PWA_BASE_PATH}/scripts/polyfills.eea1a8b56a05e4aa.js`,
+    `${PWA_BASE_PATH}/scripts/scripts.cb42d5d187f18a8a.js`,
+    `${PWA_BASE_PATH}/scripts/main.bb1e95bd8586e328.js`,
+    `${PWA_BASE_PATH}/scripts/styles.28db3436e8debf5e.css`,
+    `${PWA_BASE_PATH}/scripts/common.8395e4c0736267db.js`,
+    `${PWA_BASE_PATH}/scripts/7720.20c6da9c50e94bad.js`,
+    `${PWA_BASE_PATH}/scripts/2075.7d953ffaa9e7fffa.js`,
+    `${PWA_BASE_PATH}/scripts/3506.52dad6c88dc52711.js`,
   ],
 };
 

@@ -15,9 +15,10 @@ export const options = {
   },
 };
 
-const ORIGIN = (__ENV.BASE_ORIGIN || 'https://toulouse-m-dev.convertigo.com').replace(/\/$/, '');
+const ORIGIN = (__ENV.BASE_ORIGIN || 'https://toulouse-m-prod.convertigo.com').replace(/\/$/, '');
 const LOGIN = __ENV.LOGIN || '';
 const PASSWORD = __ENV.PASSWORD || '';
+const FLOW_MODE = (__ENV.FLOW_MODE || 'full-app').toLowerCase();
 const DEBUG_PROGRESS = (__ENV.DEBUG_PROGRESS || '').toLowerCase() === 'true';
 const DEBUG_FAILURES = (__ENV.DEBUG_FAILURES || '').toLowerCase() !== 'false';
 const LOAD_STATICS_ONCE_PER_VU = (__ENV.LOAD_STATICS_ONCE_PER_VU || '').toLowerCase() === 'true';
@@ -27,12 +28,24 @@ const X_CONVERTIGO_MB = __ENV.X_CONVERTIGO_MB || '8.4.0';
 const X_CONVERTIGO_SDK = __ENV.X_CONVERTIGO_SDK || '4.0.26-beta8';
 const CLIENT_TIMEOUT = __ENV.CLIENT_TIMEOUT || '60s';
 const ASSET_TIMEOUT = __ENV.ASSET_TIMEOUT || '30s';
+const THINK_TIME_ENABLED = (__ENV.THINK_TIME_ENABLED || 'true').toLowerCase() !== 'false';
+const THINK_TIME_MIN_SECONDS = Number(__ENV.THINK_TIME_MIN_SECONDS || 1.5);
+const THINK_TIME_MAX_SECONDS = Number(__ENV.THINK_TIME_MAX_SECONDS || 4.5);
+const THINK_TIME_AFTER_LOGIN_SECONDS = Number(
+  __ENV.THINK_TIME_AFTER_LOGIN_SECONDS || 2.5,
+);
+const THINK_TIME_AFTER_NAV_SECONDS = Number(
+  __ENV.THINK_TIME_AFTER_NAV_SECONDS || 2.0,
+);
+const THINK_TIME_VIEW_SECONDS = Number(__ENV.THINK_TIME_VIEW_SECONDS || 3.0);
+const PUBLISHED_APP_ID = __ENV.PUBLISHED_APP_ID || 'published_1774946272392';
+const PWA_BASE_PATH = `/convertigo/projects/C8Oforms/DisplayObjects/pwas/${PUBLISHED_APP_ID}`;
 
 const MOBILE_INDEX = '/convertigo/projects/C8Oforms/DisplayObjects/mobile/index.html';
-const PUBLISHED_INDEX = '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/index.html';
+const PUBLISHED_INDEX = `${PWA_BASE_PATH}/index.html`;
 const MOBILE_SELECTOR_REF = `${ORIGIN}/convertigo/projects/C8Oforms/DisplayObjects/mobile/selector/:published/:folder/:sub/:grid/:shared?formId=:formId&page=selectorPage&edit=:edit&published=null&d=:d&e=:e`;
 const MOBILE_PUBLISHED_REF = `${ORIGIN}/convertigo/projects/C8Oforms/DisplayObjects/mobile/selector/true/:folder/:sub/true/true`;
-const PWA_VIEWER_REF = `${ORIGIN}/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/viewer/published_1774523888110/:edit/:i`;
+const PWA_VIEWER_REF = `${ORIGIN}${PWA_BASE_PATH}/viewer/${PUBLISHED_APP_ID}/:edit/:i`;
 
 const MOBILE_ASSETS = [
   '/convertigo/projects/C8Oforms/DisplayObjects/mobile/runtime.15aba381475b15d3.js',
@@ -96,35 +109,78 @@ const MOBILE_ASSETS = [
 ];
 
 const PWA_ASSETS = [
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/runtime.6d01a261afb992fd.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/polyfills.eea1a8b56a05e4aa.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/scripts.cb42d5d187f18a8a.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/main.bb1e95bd8586e328.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/assets/css/animate.min.css',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/styles.28db3436e8debf5e.css',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/common.8395e4c0736267db.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/7720.20c6da9c50e94bad.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/2075.7d953ffaa9e7fffa.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/3506.52dad6c88dc52711.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/4591.17df21152b67ca8c.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/9511.816cd3ef1accb0b7.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/4460.0a444738dfe59f7c.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/7240.ba76c4dff547ca68.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/964.5f92ca71df414a6d.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/inter-latin-400-normal.ef6d3f52c547a6e3.woff2',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/7356.e3a9f6bdddac6acf.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/7076.5db592938881a68d.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/2375.d7a70495c4d5069f.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/1049.9c670bc2ebfe3f3f.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/6885.50ea6a8bfa880ac3.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/1705.c8670072711ae0e1.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/8895.c160c9906bce69fc.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/6075.281d49bafb7c1fa9.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/5163.0e14ba2225ad055a.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/5100.8d579c557e238511.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/4406.166e99dbeda5945c.js',
-  '/convertigo/projects/C8Oforms/DisplayObjects/pwas/published_1774523888110/scripts/4550.3e46105b7ec09f30.js',
+  `${PWA_BASE_PATH}/scripts/runtime.6d01a261afb992fd.js`,
+  `${PWA_BASE_PATH}/scripts/polyfills.eea1a8b56a05e4aa.js`,
+  `${PWA_BASE_PATH}/scripts/scripts.cb42d5d187f18a8a.js`,
+  `${PWA_BASE_PATH}/scripts/main.bb1e95bd8586e328.js`,
+  `${PWA_BASE_PATH}/assets/css/animate.min.css`,
+  `${PWA_BASE_PATH}/scripts/styles.28db3436e8debf5e.css`,
+  `${PWA_BASE_PATH}/scripts/common.8395e4c0736267db.js`,
+  `${PWA_BASE_PATH}/scripts/7720.20c6da9c50e94bad.js`,
+  `${PWA_BASE_PATH}/scripts/2075.7d953ffaa9e7fffa.js`,
+  `${PWA_BASE_PATH}/scripts/3506.52dad6c88dc52711.js`,
+  `${PWA_BASE_PATH}/scripts/4591.17df21152b67ca8c.js`,
+  `${PWA_BASE_PATH}/scripts/9511.816cd3ef1accb0b7.js`,
+  `${PWA_BASE_PATH}/scripts/4460.0a444738dfe59f7c.js`,
+  `${PWA_BASE_PATH}/scripts/7240.ba76c4dff547ca68.js`,
+  `${PWA_BASE_PATH}/scripts/964.5f92ca71df414a6d.js`,
+  `${PWA_BASE_PATH}/scripts/inter-latin-400-normal.ef6d3f52c547a6e3.woff2`,
+  `${PWA_BASE_PATH}/scripts/7356.e3a9f6bdddac6acf.js`,
+  `${PWA_BASE_PATH}/scripts/7076.5db592938881a68d.js`,
+  `${PWA_BASE_PATH}/scripts/2375.d7a70495c4d5069f.js`,
+  `${PWA_BASE_PATH}/scripts/1049.9c670bc2ebfe3f3f.js`,
+  `${PWA_BASE_PATH}/scripts/6885.50ea6a8bfa880ac3.js`,
+  `${PWA_BASE_PATH}/scripts/1705.c8670072711ae0e1.js`,
+  `${PWA_BASE_PATH}/scripts/8895.c160c9906bce69fc.js`,
+  `${PWA_BASE_PATH}/scripts/6075.281d49bafb7c1fa9.js`,
+  `${PWA_BASE_PATH}/scripts/5163.0e14ba2225ad055a.js`,
+  `${PWA_BASE_PATH}/scripts/5100.8d579c557e238511.js`,
+  `${PWA_BASE_PATH}/scripts/4406.166e99dbeda5945c.js`,
+  `${PWA_BASE_PATH}/scripts/4550.3e46105b7ec09f30.js`,
 ];
+
+const TEMPERATURE_TABLE_CONFIG = {
+  table_id: 'Convertigo NoCode Databases - olivierp@convertigo.com~>Temperatures~>synthetics',
+  table_id_int: 767,
+  columns: ['date', 't_avg_c'],
+  hidden: [],
+  form_id: '1774946272392',
+  source_id: 1773937886289,
+  source_owner: 'olivierp@convertigo.com',
+  link_row_table_id: [],
+};
+
+const EMPLOYEE_TABLE_CONFIG = {
+  table_id: 'Convertigo NoCode Databases - olivierp@convertigo.com~>Employee Directory~>Employees',
+  table_id_int: 762,
+  columns: [
+    'Name',
+    'Email',
+    'Phone',
+    'Picture',
+    'Manager of',
+    'Unit',
+    'Department',
+    'Job role',
+    'Unit name',
+    'Home address',
+    'ZIP code',
+    'Date of birth',
+    'Remarks',
+    'Start date',
+    'End date',
+    'Is active',
+    'Status',
+    'Birthday this year',
+    'Supervisor',
+    'Office location',
+  ],
+  hidden: [],
+  form_id: '1774946272392',
+  source_id: 1773925939519,
+  source_owner: 'olivierp@convertigo.com',
+  link_row_table_id: [],
+};
 
 let mobileAssetsLoadedForVu = false;
 let pwaAssetsLoadedForVu = false;
@@ -142,6 +198,27 @@ function progress(label) {
   if (DEBUG_PROGRESS) {
     console.log(`[progress] ${label}`);
   }
+}
+
+function clampThinkSeconds(value) {
+  if (!Number.isFinite(value) || value < 0) return 0;
+  return value;
+}
+
+function randomThinkSeconds() {
+  const min = clampThinkSeconds(THINK_TIME_MIN_SECONDS);
+  const max = clampThinkSeconds(THINK_TIME_MAX_SECONDS);
+  if (max <= min) return min;
+  return min + Math.random() * (max - min);
+}
+
+function think(label, seconds = randomThinkSeconds()) {
+  if (!THINK_TIME_ENABLED) return;
+  const duration = clampThinkSeconds(seconds);
+  if (duration <= 0) return;
+  progress(`think start: ${label} (${duration.toFixed(2)}s)`);
+  sleep(duration);
+  progress(`think done: ${label}`);
 }
 
 function summarizeBody(res) {
@@ -164,10 +241,69 @@ function logFailure(label, res) {
   console.warn(`[failure] ${parts.join(' | ')}`);
 }
 
-function expectStatus(res, label, expected = 200, type = 'business') {
-  const ok = res && res.status === expected;
+function getJsonValueAtPath(value, path) {
+  let current = value;
+  for (const part of path.split('.')) {
+    if (current == null || typeof current !== 'object' || !(part in current)) {
+      return undefined;
+    }
+    current = current[part];
+  }
+  return current;
+}
+
+function findAppError(value, path = '$') {
+  if (value == null) return null;
+
+  if (typeof value === 'string') {
+    if (/\b(error|exception|denied|forbidden|unauthorized)\b/i.test(value)) {
+      return `${path}=${value.slice(0, 160)}`;
+    }
+    return null;
+  }
+
+  if (Array.isArray(value)) {
+    for (let index = 0; index < value.length; index += 1) {
+      const nested = findAppError(value[index], `${path}[${index}]`);
+      if (nested) return nested;
+    }
+    return null;
+  }
+
+  if (typeof value === 'object') {
+    for (const [key, nestedValue] of Object.entries(value)) {
+      if (/^(error|errors|exception|exceptions|stack|stacktrace|throwable|cause)$/i.test(key)) {
+        return `${path}.${key}`;
+      }
+      const nested = findAppError(nestedValue, `${path}.${key}`);
+      if (nested) return nested;
+    }
+  }
+
+  return null;
+}
+
+function expectStatus(res, label, expected = 200, type = 'business', validator = null) {
+  let ok = res && res.status === expected;
+  let appFailure = null;
+
+  if (ok && validator) {
+    appFailure = validator(res);
+    ok = !appFailure;
+  }
+
   if (!ok) logFailure(label, res);
+  if (appFailure && DEBUG_FAILURES) {
+    console.warn(`[failure] label=${label} | app_error=${appFailure}`);
+  }
   check(res, { [label]: (r) => r && r.status === expected }, { type });
+  if (validator) {
+    check(
+      { appFailure },
+      { [`${label} payload valid`]: (v) => !v.appFailure },
+      { type },
+    );
+  }
   return ok;
 }
 
@@ -392,106 +528,172 @@ function parseJson(res) {
   }
 }
 
+function validateBusinessJson(res) {
+  const payload = parseJson(res);
+  if (payload == null) {
+    return 'response body is not valid JSON';
+  }
+
+  const errorPath = findAppError(payload);
+  if (errorPath) {
+    return `error marker found at ${errorPath}`;
+  }
+
+  return null;
+}
+
+function validateAuthenticatedUser(res) {
+  const payload = parseJson(res);
+  if (payload == null) {
+    return 'response body is not valid JSON';
+  }
+  if (payload.authenticated !== true) {
+    return `authenticated=${String(payload.authenticated)}`;
+  }
+  if (!payload.user) {
+    return 'missing user in authenticated session';
+  }
+  return validateBusinessJson(res);
+}
+
+function validateRequiredPaths(paths) {
+  return (res) => {
+    const payload = parseJson(res);
+    if (payload == null) {
+      return 'response body is not valid JSON';
+    }
+    const errorPath = findAppError(payload);
+    if (errorPath) {
+      return `error marker found at ${errorPath}`;
+    }
+    for (const path of paths) {
+      if (typeof getJsonValueAtPath(payload, path) === 'undefined') {
+        return `missing required field ${path}`;
+      }
+    }
+    return null;
+  };
+}
+
+function validatorForSequence(sequence) {
+  if (sequence === 'getCurrentUserSettings' || sequence === 'GetOAuthCredentials') {
+    return null;
+  }
+  return validateBusinessJson;
+}
+
 export default function () {
-  if (!LOGIN || !PASSWORD) {
+  const requiresLogin = FLOW_MODE === 'full-app';
+  if (requiresLogin && (!LOGIN || !PASSWORD)) {
     throw new Error('LOGIN and PASSWORD env vars are required');
   }
 
   const uuid = makeUuid();
 
-  group('mobile app bootstrap', () => {
-    const index = http.get(`${ORIGIN}${MOBILE_INDEX}`, {
-      headers: htmlHeaders(),
-      tags: { step: 'mobile-index' },
+  if (FLOW_MODE === 'full-app') {
+    group('mobile app bootstrap', () => {
+      const index = http.get(`${ORIGIN}${MOBILE_INDEX}`, {
+        headers: htmlHeaders(),
+        tags: { step: 'mobile-index' },
+      });
+      expectStatus(index, 'mobile index 200', 200, 'assets');
+
+      maybeFetchAssetBatch(
+        MOBILE_ASSETS,
+        `${ORIGIN}${MOBILE_INDEX}`,
+        'mobile-assets',
+        (value) => {
+          if (typeof value !== 'undefined') mobileAssetsLoadedForVu = value;
+          return mobileAssetsLoadedForVu;
+        },
+      );
+      postUserGet(`${ORIGIN}${MOBILE_INDEX}`, 'user-get-anon');
+
+      [
+        ['C8Oforms', 'getGDRPmenu', {}, 'getGDRPmenu'],
+        ['C8Oforms', 'getBrevoChatId', {}, 'getBrevoChatId'],
+        ['C8Oforms', 'getCurrentUserSettings', {}, 'getCurrentUserSettings'],
+        ['C8Oforms', 'getGDRPtoast', {}, 'getGDRPtoast'],
+        ['C8Oforms', 'GetLanguage', { __disableAutologin: 'false', email: '' }, 'GetLanguage'],
+        ['C8Oforms', 'getAvailableAuthModeForLogin', { __disableAutologin: 'false' }, 'getAvailableAuthModeForLogin'],
+        ['lib_OAuth', 'GetOAuthCredentials', { __disableAutologin: 'false' }, 'GetOAuthCredentials'],
+        ['C8Oforms', 'GetLanguage', { __localCache_ttl: '3000', __disableAutologin: 'false', email: LOGIN }, 'GetLanguage'],
+      ].forEach(([project, sequence, fields, step]) => {
+        const res = postSequence(project, sequence, fields, uuid, step, `${ORIGIN}${MOBILE_INDEX}`);
+        expectStatus(res, `${sequence} ok`, 200, 'business', validatorForSequence(sequence));
+        think(`after ${step}`);
+      });
+
+      const login = postSequence(
+        'C8Oforms',
+        'Login',
+        {
+          __disableAutologin: 'false',
+          password: PASSWORD,
+          email: LOGIN,
+        },
+        uuid,
+        'Login',
+        `${ORIGIN}${MOBILE_INDEX}`,
+      );
+      expectStatus(login, 'login ok', 200, 'business', validateBusinessJson);
+      think('after login submit', THINK_TIME_AFTER_LOGIN_SECONDS);
+      const authenticatedUser = postUserGet(MOBILE_SELECTOR_REF, 'user-get-auth');
+      expectStatus(authenticatedUser, 'user-get-auth ok', 200, 'business', validateAuthenticatedUser);
+      think('after authenticated landing', THINK_TIME_AFTER_NAV_SECONDS);
     });
-    expectStatus(index, 'mobile index 200', 200, 'assets');
 
-    maybeFetchAssetBatch(
-      MOBILE_ASSETS,
-      `${ORIGIN}${MOBILE_INDEX}`,
-      'mobile-assets',
-      (value) => {
-        if (typeof value !== 'undefined') mobileAssetsLoadedForVu = value;
-        return mobileAssetsLoadedForVu;
-      },
-    );
-    postUserGet(`${ORIGIN}${MOBILE_INDEX}`, 'user-get-anon');
+    group('published app selector', () => {
+      const currentUser = postSequence('C8Oforms', 'getCurrentUserSettings', {}, uuid, 'getCurrentUserSettings', MOBILE_SELECTOR_REF);
+      expectStatus(currentUser, 'post-login settings ok', 200, 'business');
 
-    [
-      ['C8Oforms', 'getGDRPmenu', {}, 'getGDRPmenu'],
-      ['C8Oforms', 'getBrevoChatId', {}, 'getBrevoChatId'],
-      ['C8Oforms', 'getCurrentUserSettings', {}, 'getCurrentUserSettings'],
-      ['C8Oforms', 'getGDRPtoast', {}, 'getGDRPtoast'],
-      ['C8Oforms', 'GetLanguage', { __disableAutologin: 'false', email: '' }, 'GetLanguage'],
-      ['C8Oforms', 'getAvailableAuthModeForLogin', { __disableAutologin: 'false' }, 'getAvailableAuthModeForLogin'],
-      ['lib_OAuth', 'GetOAuthCredentials', { __disableAutologin: 'false' }, 'GetOAuthCredentials'],
-      ['C8Oforms', 'GetLanguage', { __localCache_ttl: '3000', __disableAutologin: 'false', email: LOGIN }, 'GetLanguage'],
-    ].forEach(([project, sequence, fields, step]) => {
-      const res = postSequence(project, sequence, fields, uuid, step, `${ORIGIN}${MOBILE_INDEX}`);
-      expectStatus(res, `${sequence} ok`, 200, 'business');
+      const outFolder = postSequence(
+        'C8Oforms',
+        'APIV2_ExecuteView',
+        {
+          target: 'formsV2/out_folder',
+          acl: 'true',
+          dynamicParams: '{"folder":"","filters":{}}',
+        },
+        uuid,
+        'APIV2_ExecuteView',
+        MOBILE_SELECTOR_REF,
+      );
+      expectStatus(outFolder, 'forms view ok', 200, 'business', validateBusinessJson);
+      think('after forms list load', THINK_TIME_AFTER_NAV_SECONDS);
+
+      const templates = postSequence(
+        'C8Oforms',
+        'APIV2_ExecuteView',
+        { target: 'templatesEN' },
+        uuid,
+        'APIV2_ExecuteView',
+        MOBILE_SELECTOR_REF,
+      );
+      expectStatus(templates, 'templates view ok', 200, 'business', validateBusinessJson);
+      think('after templates load');
+
+      const fsRoot = getJson('/convertigo/fullsync/c8oforms_fs/', MOBILE_SELECTOR_REF, 'fullsync-root');
+      expectStatus(fsRoot, 'fullsync root ok', 200, 'business', validateBusinessJson);
+
+      const publishedCurrentUser = postSequence('C8Oforms', 'getCurrentUserSettings', {}, uuid, 'getCurrentUserSettings', MOBILE_PUBLISHED_REF);
+      expectStatus(publishedCurrentUser, 'published settings ok', 200, 'business');
+      const publishedForms = postSequence(
+        'C8Oforms',
+        'APIV2_ExecuteView',
+        {
+          target: 'published_formsV2/out_folder',
+          acl: 'true',
+          dynamicParams: '{"folder":"","filters":{}}',
+        },
+        uuid,
+        'APIV2_ExecuteView',
+        MOBILE_PUBLISHED_REF,
+      );
+      expectStatus(publishedForms, 'published forms view ok', 200, 'business', validateBusinessJson);
+      think('after published app open', THINK_TIME_AFTER_NAV_SECONDS);
     });
-
-    const login = postSequence(
-      'C8Oforms',
-      'Login',
-      {
-        __disableAutologin: 'false',
-        password: PASSWORD,
-        email: LOGIN,
-      },
-      uuid,
-      'Login',
-      `${ORIGIN}${MOBILE_INDEX}`,
-    );
-    expectStatus(login, 'login ok', 200, 'business');
-    postUserGet(MOBILE_SELECTOR_REF, 'user-get-auth');
-  });
-
-  group('published app selector', () => {
-    const currentUser = postSequence('C8Oforms', 'getCurrentUserSettings', {}, uuid, 'getCurrentUserSettings', MOBILE_SELECTOR_REF);
-    expectStatus(currentUser, 'post-login settings ok', 200, 'business');
-
-    const outFolder = postSequence(
-      'C8Oforms',
-      'APIV2_ExecuteView',
-      {
-        target: 'formsV2/out_folder',
-        acl: 'true',
-        dynamicParams: '{"folder":"","filters":{}}',
-      },
-      uuid,
-      'APIV2_ExecuteView',
-      MOBILE_SELECTOR_REF,
-    );
-    expectStatus(outFolder, 'forms view ok', 200, 'business');
-
-    const templates = postSequence(
-      'C8Oforms',
-      'APIV2_ExecuteView',
-      { target: 'templatesEN' },
-      uuid,
-      'APIV2_ExecuteView',
-      MOBILE_SELECTOR_REF,
-    );
-    expectStatus(templates, 'templates view ok', 200, 'business');
-
-    const fsRoot = getJson('/convertigo/fullsync/c8oforms_fs/', MOBILE_SELECTOR_REF, 'fullsync-root');
-    expectStatus(fsRoot, 'fullsync root ok', 200, 'business');
-
-    postSequence('C8Oforms', 'getCurrentUserSettings', {}, uuid, 'getCurrentUserSettings', MOBILE_PUBLISHED_REF);
-    postSequence(
-      'C8Oforms',
-      'APIV2_ExecuteView',
-      {
-        target: 'published_formsV2/out_folder',
-        acl: 'true',
-        dynamicParams: '{"folder":"","filters":{}}',
-      },
-      uuid,
-      'APIV2_ExecuteView',
-      MOBILE_PUBLISHED_REF,
-    );
-  });
+  }
 
   group('published app viewer', () => {
     const pwaIndex = http.get(`${ORIGIN}${PUBLISHED_INDEX}`, {
@@ -512,32 +714,33 @@ export default function () {
 
     const currentUser = postSequence('C8Oforms', 'getCurrentUserSettings', {}, uuid, 'getCurrentUserSettings', PWA_VIEWER_REF);
     expectStatus(currentUser, 'viewer settings ok', 200, 'business');
+    think('after viewer bootstrap', THINK_TIME_AFTER_NAV_SECONDS);
 
     const doc = postSequence(
       'C8Oforms',
       'APIV2_getDocument',
-      { id: 'published_1774523888110' },
+      { id: PUBLISHED_APP_ID },
       uuid,
       'APIV2_getDocument',
       PWA_VIEWER_REF,
     );
-    expectStatus(doc, 'document load ok', 200, 'business');
+    expectStatus(doc, 'document load ok', 200, 'business', validateRequiredPaths(['res._id']));
+    think('after document render', THINK_TIME_VIEW_SECONDS);
 
     const responseFsRoot = getJson('/convertigo/fullsync/c8oforms_response_fs/', PWA_VIEWER_REF, 'response-fs-root');
-    expectStatus(responseFsRoot, 'response fs root ok', 200, 'business');
+    expectStatus(responseFsRoot, 'response fs root ok', 200, 'business', validateRequiredPaths(['db_name']));
     const responseFsDesign = getJson('/convertigo/fullsync/c8oforms_response_fs/_design/c8o', PWA_VIEWER_REF, 'response-fs-design');
-    expectStatus(responseFsDesign, 'response fs design ok', 200, 'business');
+    expectStatus(responseFsDesign, 'response fs design ok', 200, 'business', validateRequiredPaths(['_id', 'views']));
     const fullsyncRoot = getJson('/convertigo/fullsync/', PWA_VIEWER_REF, 'fullsync-api-root');
-    expectStatus(fullsyncRoot, 'fullsync api root ok', 200, 'business');
+    expectStatus(fullsyncRoot, 'fullsync api root ok', 200, 'business', validateRequiredPaths(['couchdb', 'version']));
     const localDoc = getJson('/convertigo/fullsync/c8oforms_response_fs/_local/3ETQbCpSk3XPwKHW5wMSNg%3D%3D', PWA_VIEWER_REF, 'response-fs-local');
-    expectStatus(localDoc, 'response fs local ok', 200, 'business');
+    expectStatus(localDoc, 'response fs local ok', 200, 'business', validateBusinessJson);
 
     const tempData = postSequence(
       'lib_BaseRow',
       'formssource_GetTableData',
       {
-        forms_config:
-          '{"table_id":"Convertigo NoCode Databases - gregoryv@convertigo.com~>Temperatures~>synthetics","table_id_int":831,"columns":["date","t_avg_c"],"hidden":[],"form_id":"1774523888110","source_id":1773937886289,"source_owner":"gregoryv@convertigo.com","link_row_table_id":[]}',
+        forms_config: JSON.stringify(TEMPERATURE_TABLE_CONFIG),
         forms_tableFilter: '{"filters":[],"mode":"AND"}',
         forms_tableSort: '',
       },
@@ -545,14 +748,14 @@ export default function () {
       'formssource_GetTableData',
       PWA_VIEWER_REF,
     );
-    expectStatus(tempData, 'temperatures table ok', 200, 'business');
+    expectStatus(tempData, 'temperatures table ok', 200, 'business', validateBusinessJson);
+    think('viewing chart data', THINK_TIME_VIEW_SECONDS);
 
     const employeeData = postSequence(
       'lib_BaseRow',
       'formssource_GetTableData',
       {
-        forms_config:
-          '{"table_id":"Convertigo NoCode Databases - gregoryv@convertigo.com~>Employee Directory~>Employees","table_id_int":829,"columns":["Department","Office location","Email","Supervisor","Date of birth","Remarks","Start date","Status","Is active","End date","Name","Phone","Picture","Manager of","Unit","Job role","Unit name","Home address","ZIP code","Birthday this year"],"hidden":[],"form_id":"1774523888110","source_id":1773925939519,"source_owner":"gregoryv@convertigo.com","link_row_table_id":[828,829]}',
+        forms_config: JSON.stringify(EMPLOYEE_TABLE_CONFIG),
         forms_tableFilter: '',
         forms_tableSort: '',
       },
@@ -560,7 +763,8 @@ export default function () {
       'formssource_GetTableData',
       PWA_VIEWER_REF,
     );
-    expectStatus(employeeData, 'employee table ok', 200, 'business');
+    expectStatus(employeeData, 'employee table ok', 200, 'business', validateBusinessJson);
+    think('viewing employee directory', THINK_TIME_VIEW_SECONDS);
   });
 
   sleep(Number(__ENV.SLEEP_SECONDS || 1));
